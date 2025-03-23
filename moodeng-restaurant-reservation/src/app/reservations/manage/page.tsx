@@ -1,12 +1,11 @@
-import Image from "next/image";
-
+"use client"
+import ReservationCart from "@/components/ReservationCart"
 
 export default function ManageReservations() {
-  return (
-    <main >
-      <div className="text-center text-lg">
-        Manage your reservations
-      </div>
-    </main>
-  );
+
+    return (
+        <main>
+            <ReservationCart/>
+        </main>
+    )
 }

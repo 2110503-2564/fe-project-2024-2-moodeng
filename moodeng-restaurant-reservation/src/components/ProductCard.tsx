@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import InteractiveCard from './InteractiveCard'
+import { Rating } from '@mui/material';
 
 export default function productcard( {carName,imgSrc,onCompare}:
     {carName:string,imgSrc:string,onCompare?:Function}){
@@ -8,7 +9,9 @@ export default function productcard( {carName,imgSrc,onCompare}:
 
     return(
         //interactiveCard have child that display in itself
-        <InteractiveCard contentName={carName}>
+        <InteractiveCard contentName={carName} >
+            <div className='bg-yellow-50 h-full w-full'>
+
             <div className='w-full h-[70%] relative rounded-t-lg '>
              <Image src={imgSrc} 
              alt='Product Picture'
@@ -17,17 +20,37 @@ export default function productcard( {carName,imgSrc,onCompare}:
              />
 
             </div>
+
             <div className='w-full h-[15%] p-[10px]'>
                 {carName}
             </div>
-            {
-            onCompare?
-            <button className='block h-[10%] text-sm rounded-md
-            bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1
-            text-white shadow-sm' onClick={(e)=>{e.stopPropagation(); e.preventDefault(); onCompare(carName)}}>
-                Compare
-            </button>:''
-            }
+            
+            <div className='flex flex-row absoulte left-0 bottom-0
+            w-full h-[15%] p-[10px] text-left m-2  '>
+                <div>
+                <Rating
+                defaultValue={0} 
+                precision={0.5}
+                id={`${carName} Rating`}
+                name={`${carName} Rating`}
+                data-testid={`${carName} Rating`}
+                onClick={(e)=>{e.stopPropagation();}}
+                //onChange={(e, newValue) => {onRating(carName,newValue);}}
+                />  
+                </div>
+               <div className='text-sm underline hover:text-blue-600'>3.00</div>
+            
+                {
+                onCompare?
+                <button className='font-serif text-sm rounded-md
+                bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1
+                text-white shadow-sm' onClick={(e)=>{e.stopPropagation(); e.preventDefault(); onCompare(carName)}}>
+                    +Review
+                </button>:''
+                }
+            </div>
+
+            </div>
         </InteractiveCard>
     )
 }
