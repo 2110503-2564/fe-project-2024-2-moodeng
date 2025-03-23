@@ -11,15 +11,15 @@ import { addReservation } from "@/redux/features/cartSlice";
 
 export default function Reverservations() {
   const urlParams =useSearchParams();
-  const cid=urlParams.get('id')
+  const rid=urlParams.get('id')
   const model=urlParams.get('model')
 
   const dispatch=useDispatch<AppDispatch>();
 
   const  makeReservation= ()=>{
-    if(cid&&model&&pickupDate&&returnDate){
+    if(rid&&model&&pickupDate&&returnDate){
       const item:ReservationItem={
-        carId:cid,
+        carId:rid,
         carModel:model,
         // NumOfDays:returnDate.diff(pickupDate,"day"),
         NumOfDays:String(returnDate?.diff(pickupDate, "day") ?? 0),
@@ -44,7 +44,7 @@ export default function Reverservations() {
       <div className="text-xl font-medium">New Reservation</div>
 
       <div className="text-xl font-medium">{model}</div>
-      <div className="text-xl font-medium">{cid}</div>
+      <div className="text-xl font-medium">{rid}</div>
 
       <div className="w-fit space-y-2">
         <div className="text-md text-left text-gray-600">Pick-Up Date and Location</div>

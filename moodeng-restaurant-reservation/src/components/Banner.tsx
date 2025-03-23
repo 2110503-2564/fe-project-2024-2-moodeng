@@ -4,6 +4,9 @@ import styles from './banner.module.css'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { Pattaya } from "next/font/google";
+
+const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
 export default function banner(){
     const covers=['/image/temp.png'];
@@ -21,10 +24,11 @@ export default function banner(){
             objectFit='cover'
             priority
             /> 
+            {/* <div className={`${styles.bannerText} ${pattaya.className}`}> */}
 
             <div className={styles.bannerText}>
-                <h1 className='text-4xl'>Your Travel Partner</h1>
-                <h3 className='text-xl font-serif'>Explore Your World with Us</h3>
+                <h1 className={pattaya.className} style={{ fontSize: "96px" }}>Your Dining Experience Awaits</h1>
+                <h3 className='text-3xl font-serif'>MOODENG Restaurant Reservation App</h3>
             </div>
 
             {session?
@@ -34,11 +38,12 @@ export default function banner(){
                 : null
             }
 
-            <button className='bg-white text-cyan-600 border border-cyan-600
-            font-semibold py-2 px-2 m-2 z-30 absolute bottom-0 right-0
-            hover:bg-cyan-600  hover:text-white hover:border-transparent'
-            onClick={(e)=>{rounter.push('/car');e.stopPropagation()}}>
-                Select Your Travel Parner NOW
+            <button className='bg-amber-800 text-white rounded border border-white
+            font-serif text-xl py-2 px-2 m-2 z-50 
+            absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 
+            hover:bg-white  hover:text-amber-800 hover:border-transparent'
+            onClick={(e)=>{rounter.push('/restaurant');e.stopPropagation()}}>
+                Select Your Restaurants
             </button>
 
         </div>

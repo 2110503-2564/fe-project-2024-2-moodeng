@@ -2,8 +2,8 @@ import Image from "next/image";
 import getCar from "@/libs/getCar";
 import Link from "next/link";
 
-export default async function CarDetailPage({params}:{params:{cid:string}}){
-    const CarDetail=await getCar(params.cid);
+export default async function CarDetailPage({params}:{params:{rid:string}}){
+    const CarDetail=await getCar(params.rid);
     // //mock data
     // const mockCarRepo=new Map();
     // mockCarRepo.set("001",{name:"Honda Civic",image:"/img/civic.jpg"});
@@ -28,7 +28,7 @@ export default async function CarDetailPage({params}:{params:{cid:string}}){
                     <div >Small Bags: {CarDetail.data.smallbags}</div>
                     <div >Daily Rental Rate: {CarDetail.data.dayRate} (insurance included)</div>
 
-                    <Link href={`/reservations?id=${params.cid}&model=${CarDetail.data.model}`}>
+                    <Link href={`/reservations?id=${params.rid}&model=${CarDetail.data.model}`}>
                         <button className="block rounded-md bg-sky-600  hover:bg-indigo-600 
                         px-3 py-2 text-white shadow-sm">
                             Make Reservation
@@ -42,5 +42,5 @@ export default async function CarDetailPage({params}:{params:{cid:string}}){
 }
 
 export async function generateStaticParams() {
-    return[{cid:"001"},{cid:"002"},{cid:"003"},{cid:"004"}]
+    return[{rid:"001"},{rid:"002"},{rid:"003"},{rid:"004"}]
 }

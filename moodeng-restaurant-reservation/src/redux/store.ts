@@ -3,7 +3,7 @@ import {configureStore,combineReducers}from '@reduxjs/toolkit'
 import  cartSlice  from './features/cartSlice'
 import { TypedUseSelectorHook, useSelector, UseSelector } from 'react-redux'
 import {persistReducer,FLUSH,REHYDRATE,PAUSE,PERSIST,PURGE,REGISTER} from 'redux-persist'
-import createWebStorage from 'redux-persist/es/storage/createWebStorage'
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { WebStorage } from 'redux-persist/lib/types'
 
 function createPersistStorage():WebStorage{

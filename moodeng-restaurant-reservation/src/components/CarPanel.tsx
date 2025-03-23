@@ -34,10 +34,10 @@ export default function CarPanel(){
     const [compareList,dispachCompare]=useReducer(compareReducer,new Set<string>());
     // // mock data
     // const mockCarRepo=[
-    //     {cid:"001",name:"Honda Civic",image:"/img/civic.jpg"},
-    //     {cid:"002",name:"Honda Accord",image:"/img/accord.jpg"},
-    //     {cid:"003",name:"Toyota Fortuner",image:"/img/fortuner.jpg"},
-    //     {cid:"004",name:"Tesla Model 3",image:"/img/tesla.jpg"},
+    //     {rid:"001",name:"Honda Civic",image:"/img/civic.jpg"},
+    //     {rid:"002",name:"Honda Accord",image:"/img/accord.jpg"},
+    //     {rid:"003",name:"Toyota Fortuner",image:"/img/fortuner.jpg"},
+    //     {rid:"004",name:"Tesla Model 3",image:"/img/tesla.jpg"},
     // ]
 
     if(!carResponse)return(<p>car is loading...</p>)
@@ -49,7 +49,7 @@ export default function CarPanel(){
             alignContent:"space-around",padding:"10px"}}>
                 {
                     carResponse.data.map((caritem:Object)=>(
-                        <Link href={`/car/${caritem.id}` }className="w-1/5"key={caritem.cid}>
+                        <Link href={`/restaurant/${caritem.id}` }className="w-1/5"key={caritem.rid}>
                         <Productcard carName={caritem.model} imgSrc={caritem.picture}
                         onCompare={(car:string)=>dispachCompare({type:'add',carName:car})}/>
                         </Link>
