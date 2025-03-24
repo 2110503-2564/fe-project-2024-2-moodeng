@@ -1,4 +1,4 @@
-
+//each restaurant
 export default async function getReview(id:string) {
 
     const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/restaurants/${id}/reviews`, { cache: "no-store" });

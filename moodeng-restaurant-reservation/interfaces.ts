@@ -37,7 +37,7 @@ export interface RestaurantJson{
     data: RestaurantItem[]
 }
 export interface ReviewItem{
-  _id: string,
+  _id?: string,
   user: string,
   restaurant: string,
   reviewStar: string,
