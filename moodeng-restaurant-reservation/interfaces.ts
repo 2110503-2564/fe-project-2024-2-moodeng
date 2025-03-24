@@ -36,7 +36,19 @@ export interface RestaurantJson{
     pagination: Object,
     data: RestaurantItem[]
 }
-
+export interface ReviewItem{
+  _id: string,
+  user: string,
+  restaurant: string,
+  reviewStar: string,
+  Description: string,
+}
+export interface ReviewJson{
+  success: boolean,
+  count: number,
+  pagination: Object,
+  data: ReviewItem[]
+}
 
   export interface BookingItem {
     nameLastname: string;

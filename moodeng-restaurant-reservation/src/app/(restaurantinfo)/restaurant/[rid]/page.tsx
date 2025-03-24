@@ -1,5 +1,5 @@
 import Image from "next/image";
-import getCar from "@/libs/getCar";
+//import getCar from "@/libs/getCar";
 import getRestaurant from "@/libs/getRestaurant";
 import Link from "next/link";
 import { Pattaya } from "next/font/google";

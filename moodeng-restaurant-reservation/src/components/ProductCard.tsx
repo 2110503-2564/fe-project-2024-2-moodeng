@@ -2,11 +2,12 @@
 import Image from 'next/image'
 import InteractiveCard from './InteractiveCard'
 import { Rating } from '@mui/material';
+import { useRouter } from "next/navigation"
 
 export default function productcard( {carName,imgSrc,onCompare}:
     {carName:string,imgSrc:string,onCompare?:Function}){
    
-
+        const router = useRouter();
     return(
         //interactiveCard have child that display in itself
         <InteractiveCard contentName={carName} >
@@ -38,16 +39,19 @@ export default function productcard( {carName,imgSrc,onCompare}:
                 //onChange={(e, newValue) => {onRating(carName,newValue);}}
                 />  
                 </div>
-               <div className='text-sm underline hover:text-blue-600'>3.00</div>
+               <div className='text-sm underline hover:text-blue-600' onClick={(e) => {
+                    e.stopPropagation(); 
+                    router.push("/a"); // go to add review
+                }}>4.00</div>
             
-                {
-                onCompare?
+                
+                { onCompare && (
                 <button className='font-serif text-sm rounded-md
                 bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1
                 text-white shadow-sm' onClick={(e)=>{e.stopPropagation(); e.preventDefault(); onCompare(carName)}}>
                     +Review
-                </button>:''
-                }
+                </button>
+                )}
             </div>
 
             </div>
