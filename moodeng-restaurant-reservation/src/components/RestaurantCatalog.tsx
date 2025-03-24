@@ -11,13 +11,12 @@ export default async function RestaurantCatalog({venuesJson}:{venuesJson:Promise
             
             <div style={{margin:"20px", display:"flex",flexDirection:"row",
             flexWrap:"wrap",justifyContent:"space-around",
-            alignContent:"space-around"}}>
-                {
-            venuesJsonready.data.map((carditem:RestaurantItem)=>(
-                        <Link href={`/restaurant/${carditem.id}` }className="w-1/5"key={carditem.id}>
-                       <Productcard carName={carditem.name} imgSrc={'/image/temp.png'} />
-                        </Link>
-                    ))
+            alignContent:"space-around"}}>{
+                venuesJsonready.data.map((carditem:RestaurantItem)=>(
+                    <Link href={`/restaurant/${carditem.id}` }className="w-1/5"key={carditem.id}>
+                   <Productcard carName={carditem.name} imgSrc={carditem.picture} />
+                    </Link>
+                ))
             }
             </div>
         </>

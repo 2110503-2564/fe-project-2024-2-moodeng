@@ -2,7 +2,6 @@ import NextAuth from "next-auth/next"
 import { AuthOptions } from "next-auth"
 import  CredentialsProvider  from "next-auth/providers/credentials";
 import userLogin from "@/libs/userLogin";
-
 export const authOptions:AuthOptions={
     providers: [
         CredentialsProvider({
@@ -24,6 +23,9 @@ export const authOptions:AuthOptions={
         
               if (user) {
                 // Any object returned will be saved in `user` property of the JWT
+                // console.log(user)
+                // console.log('hello user')
+
                 return user
               } else {
                 // If you return null then an error will be displayed advising the user to check their details.
@@ -36,7 +38,7 @@ export const authOptions:AuthOptions={
       ],
     session:{strategy:"jwt"},
     callbacks:{
-        async jwt({token,user}){
+        async jwt({token,user,profile}){
             return {...token,...user}
         },
         async session({session,token,user}){
@@ -45,6 +47,7 @@ export const authOptions:AuthOptions={
 
         }
     }
+    
 }
 const handler=NextAuth(authOptions);
 export {handler as GET , handler as POST};

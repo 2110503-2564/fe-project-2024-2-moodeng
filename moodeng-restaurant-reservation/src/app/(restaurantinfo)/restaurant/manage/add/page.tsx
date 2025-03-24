@@ -5,14 +5,12 @@ import { Pattaya } from "next/font/google";
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
 
-export default function ManageReservations() {
+export default function EditRestaurant() {
     const restaurant=getRestaurants();
     
     return (
         <main className="p-10">
-            <h1 className={`${pattaya.className} text-center text-4xl`} style={{ fontSize: "40px" }}>Select Your Restaurants</h1>
-
-            <RestaurantCart venuesJson={restaurant}/>
+            add and edit restaurant
         </main>
     )
 }

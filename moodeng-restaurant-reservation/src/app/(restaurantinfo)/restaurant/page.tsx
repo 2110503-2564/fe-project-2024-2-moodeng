@@ -1,7 +1,5 @@
-import CarPanel from "@/components/CarPanel";
 import getCars from "@/libs/getCars";
 import getRestaurants from "@/libs/getRestaurants";
-import CarCatalog from "@/components/CarCatalog";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
 import { Pattaya } from "next/font/google";
@@ -12,7 +10,6 @@ const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] });
 
 export default function Car(){
 
-    const cars = getCars();
     const restaurant=getRestaurants();
     
     return( 
@@ -21,10 +18,10 @@ export default function Car(){
             {/* // <CarPanel/> */}
             <Suspense fallback={<p>Loading ...<LinearProgress/></p>}>
             <RestaurantCatalog venuesJson={restaurant} />
-            <CarCatalog carJson={cars}/>
+            {/* <CarCatalog carJson={cars}/> */}
             </Suspense>
             <hr className="my-10"/>
-             <CarPanel/>
+             {/* <CarPanel/> */}
 
         </main>
     )
