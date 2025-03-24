@@ -8,7 +8,7 @@ type CartState={
 const initialState:CartState={carItems:[]}
 
 export const cartSlice=createSlice({
-    name:"cart",
+    name:"reservations/manage",
     initialState,
     reducers:{
         addReservation:(state,action:PayloadAction<ReservationItem>)=>{
@@ -16,9 +16,10 @@ export const cartSlice=createSlice({
         },
         removeReservation:(state,action:PayloadAction<ReservationItem>)=>{
              const remainItem= state.carItems.filter(obj=>{
-                return((obj.carModel!==action.payload.carModel)||
-                (obj.pickupDate!==action.payload.pickupDate)||
-                (obj.returnDate!==action.payload.returnDate))
+                return((obj._id!==action.payload._id)||
+                (obj.resDate!==action.payload.resDate)||
+                (obj.user!==action.payload.user)||
+                (obj._id!==action.payload._id))
              });
              state.carItems=remainItem
         }

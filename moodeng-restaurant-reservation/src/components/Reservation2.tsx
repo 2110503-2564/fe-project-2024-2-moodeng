@@ -36,7 +36,7 @@ export default function ReservationsClient({ userid,userName,restaurants }:
         restaurant: new mongoose.Types.ObjectId(restaurantid),
         quantity: quantity.toString(),
       };
-      dispatch(addReservation(item));
+      
     }
   };
 

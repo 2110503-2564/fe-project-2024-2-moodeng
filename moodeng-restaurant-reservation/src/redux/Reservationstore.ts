@@ -1,6 +1,6 @@
 
 import {configureStore,combineReducers}from '@reduxjs/toolkit'
-import  cartSlice  from './features/cartSlice'
+import  cartSlice  from './features/ReservationSlice'
 import { TypedUseSelectorHook, useSelector, UseSelector } from 'react-redux'
 import {persistReducer,FLUSH,REHYDRATE,PAUSE,PERSIST,PURGE,REGISTER} from 'redux-persist'
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'

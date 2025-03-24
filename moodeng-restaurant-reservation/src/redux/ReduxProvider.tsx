@@ -1,6 +1,6 @@
 'use client'
 import { Provider as ReactReduxProvider } from "react-redux"
-import { store } from "./store"
+import { store } from "./Reservationstore"
 import { persistStore } from "redux-persist"
 import { PersistGate } from "redux-persist/integration/react"
 

@@ -7,7 +7,7 @@ export default async function RestaurantCart({venuesJson}:{venuesJson:Promise<Re
     return(
         <>
         <div className="flex flex-row items-end">
-        <div className="font-serif text-xl">Explore {venuesJsonready.count} Restaurant in our catalog</div>
+        <div className="font-serif text-xl"> {venuesJsonready.count} Restaurant in our catalog</div>
         <button className='bg-amber-800 text-white rounded border border-white
             font-serif text-xl py-2 px-2 m-2 z-50 ml-auto
             hover:bg-white  hover:text-amber-800 hover:border-transparent'>

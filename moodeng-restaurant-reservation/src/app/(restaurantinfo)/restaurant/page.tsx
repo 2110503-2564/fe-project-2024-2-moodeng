@@ -1,4 +1,3 @@
-import getCars from "@/libs/getCars";
 import getRestaurants from "@/libs/getRestaurants";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
