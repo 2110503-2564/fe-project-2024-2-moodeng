@@ -23,7 +23,7 @@ export default function ReservationCart(){
         {
             carItems.map((reservationItem)=>(
                 <div className="bg-slate-200 rounded px-5 py-2 my-2"
-                    key={reservationItem.id}>
+                    key={reservationItem._id}>
                         {/* <div className="text-xl">{reservationItem.user.toString()}</div> */}
                         <div className="text-sm">Quantity {reservationItem.quantity}</div>
                         <div className="text-sm">Reservaition Date {reservationItem.resDate} </div>

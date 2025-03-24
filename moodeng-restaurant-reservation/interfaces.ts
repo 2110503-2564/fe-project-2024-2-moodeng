@@ -2,7 +2,7 @@ import { PickerValueUpdateAction } from "@mui/x-date-pickers/internals/hooks/use
 import mongoose from "mongoose"
 
 export interface ReservationItem{
-    id: string,
+    _id?: string,
     resDate:string,
     user:mongoose.Types.ObjectId,
     restaurant:mongoose.Types.ObjectId,

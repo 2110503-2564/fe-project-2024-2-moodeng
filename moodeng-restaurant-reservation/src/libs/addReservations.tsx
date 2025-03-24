@@ -1,7 +1,7 @@
 
 export default async function addReservation(id:string,token:string) {
 
-    const response=await fetch(`http://localhost:5000/api/v1/reservations/${id}`, {
+    const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/reservations/${id}`, {
         method:"POST",
         headers:{
             authorization:`Bearer ${token}`,
