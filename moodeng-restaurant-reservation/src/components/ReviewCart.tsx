@@ -61,13 +61,7 @@ export default function ReviewCart({ venuesJson, session }: { venuesJson: Review
         <>
             <div className="flex flex-row items-end mb-6">
                 <div className="font-serif text-xl">{venuesJsonready.count} Review in your catalog</div>
-                <Link href='/review/manage/add' className='m-2 z-50 ml-auto'>
-                    <button className='bg-amber-800 text-white rounded border border-white
-                    font-serif text-xl py-2 px-2 
-                    hover:bg-white hover:text-amber-800 hover:border-transparent'>
-                        Add Review
-                    </button>
-                </Link>
+                    
             </div>
             <div className="w-full p-10 space-y-6">
                 {venuesJsonready.data.map((carditem: ReviewItem) => (
