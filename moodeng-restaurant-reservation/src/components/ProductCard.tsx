@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"
 import Link from 'next/link';
 import RestaurantDetailPage from '@/app/(restaurantinfo)/restaurant/[rid]/page';
 
-export default function productcard( {carName,imgSrc,onCompare, reviewJson, rid}:
-    {carName:string,imgSrc:string,onCompare?:Function, reviewItem?: { reviewJson:ReviewJson }, rid:string}){
+export default function productcard( {carName,imgSrc,onCompare, reviewJson}:
+    {carName:string,imgSrc:string,onCompare?:Function, reviewItem?: { reviewJson:ReviewJson }}){
    
         const router = useRouter();
     return(
@@ -40,12 +40,9 @@ export default function productcard( {carName,imgSrc,onCompare, reviewJson, rid}
             
                     
             
-            <Link 
-            href={`/review/${rid}`}
-            className="font-serif text-sm rounded-md bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1 text-white shadow-sm"
-            >
-            +Review
-            </Link>
+                <button className="font-serif text-sm rounded-md bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1 text-white shadow-sm" onClick={(e)=>{e.stopPropagation(); e.preventDefault();}}>
+                +Review
+                </button>
                 
             </div>
 
