@@ -195,7 +195,7 @@ export default  function Restaurantform({ session }: { session: Session  }) {
         block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm"
         onClick={makeRestaurant}
       >
-        Reserve this Restaurant
+        add or edit this Restaurant
       </button>
     </main>
   );

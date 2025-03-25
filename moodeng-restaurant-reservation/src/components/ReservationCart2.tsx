@@ -1,7 +1,23 @@
 "use client"
+import deleteReservation from "@/libs/deleteReservation";
 import { ReservationJson } from "../../interfaces"
-export default  function ReservationCart2({reservationJson}:{reservationJson:ReservationJson}){
-    console.log(reservationJson)
+import { Session } from "next-auth";
+import Link from "next/link";
+export default  function ReservationCart2({reservationJson,session}:
+    {reservationJson:ReservationJson,session:Session}){
+    const onDelete= (rid:string) => {
+            
+            alert('delete reservation ')
+            deleteReservation(
+              
+                session.user.token,rid
+              ).then(() => {
+                    window.location.reload(); // ทำการรีโหลดหน้า
+                })
+              
+              
+            
+    };
     return(
         <>
         <div className="flex flex-row items-end">
@@ -16,19 +32,24 @@ export default  function ReservationCart2({reservationJson}:{reservationJson:Res
            
         {
             reservationJson.data.map((reservationItem)=>(
-                <div className="bg-slate-200 rounded px-5 py-2 my-2"
+                <Link href={`/reservations/?rid=${reservationItem._id}` }className="w-1/5"key={reservationItem._id}>
+                <div className="bg-slate-200 rounded px-5 py-2 my-2 hover:bg-yellow-50"
                     key={reservationItem._id}>
                         {/* <div className="text-xl">{reservationItem.user.toString()}</div> */}
                         <div className="text-sm">Quantity {reservationItem.quantity}</div>
                         <div className="text-sm">Reservaition Date {reservationItem.resDate} </div>
-                        <div className="text-md">{reservationItem.restaurant.toString()}</div>
-                        <button className="bg-amber-800 text-white rounded border border-white
+                        <div className="text-md">Restaurant ID : {reservationItem.restaurant.toString()}</div>
+                        <button className='bg-amber-800 text-white rounded border border-white
                             font-serif text-xl py-2 px-2 m-2 z-50 
-                            hover:bg-white  hover:text-amber-800 hover:border-transparent" 
-                            onClick={()=>{}}>
+                            hover:bg-white  hover:text-amber-800 hover:border-transparent'
+                            onClick={(e)=>{
+                                e.stopPropagation(); e.preventDefault(); 
+                                onDelete(reservationItem._id??'')
+                                }}>
                             Remove Reservation
                         </button>
                 </div>
+                </Link>
                 
             ))
          }

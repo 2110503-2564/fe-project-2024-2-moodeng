@@ -2,54 +2,58 @@
 
 import LocationDateReserve from "@/components/LocationDateReserveServer";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { ReservationItem, RestaurantItem, RestaurantJson } from "../../interfaces"; 
 import { Pattaya } from "next/font/google";
 import addReservation from "@/libs/addReservations";
 import mongoose from "mongoose";
 import getUserProfile from "@/libs/getUserProfile";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import editReservation from "@/libs/editReservation";
 
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
-export default async function ReservationsClient({ userid,userName,restaurants }: 
-    { userid:string,userName: string ,restaurants:RestaurantJson}) {
+export default  function ReservationsClient({ userid,userName,restaurants ,session}: 
+    { userid:string,userName: string ,restaurants:RestaurantJson,session:Session}) {
 
-      const session =await getServerSession(authOptions);
-      const profile=await getUserProfile(session?.user?.token??'');
+  const profile= getUserProfile(session?.user?.token??'');
       
   const urlParams = useSearchParams();
-  const rid = urlParams.get("id");
+  const [rid, setRid] = useState<string>("");
+  useEffect(() => {
+      const idFromUrl = urlParams.get("rid");
+      if (idFromUrl) setRid(idFromUrl);
+    }, [urlParams]); 
 
   const [pickupDate, setPickupDate] = useState<Dayjs | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
   const [restaurant, setRestaurant] = useState<string>(urlParams.get("name")||'');
   
   const makeReservation = () => {
-    if (quantity && restaurant && pickupDate) {
+
+  
+    if (rid) {
+      if(pickupDate)editReservation(session.user.token, rid, pickupDate,quantity.toString());
+      else editReservation(session.user.token, rid, undefined,quantity.toString());
+      alert('Edit Reservation ')
+    }
+    else if (quantity && restaurant && pickupDate) {
         const restaurantitem = restaurants.data.find((r: RestaurantItem) => r.name === restaurant);
         const restaurantid=restaurantitem?._id??''
-        console.log(restaurantid)
 
-      const item: ReservationItem = {
-        resDate: dayjs(pickupDate).format('YYYY/MM/DD'),
-        user:  new mongoose.Types.ObjectId(userid),
-        restaurant: new mongoose.Types.ObjectId(restaurantid),
-        quantity: quantity.toString(),
-      };
+      console.log(pickupDate)
       addReservation(
       
-        restaurantid,
-        session?.user?.token??'',
-        dayjs(pickupDate).format('YYYY/MM/DD'),
+        session.user.token,
+        pickupDate,
         userid,
         restaurantid,
         quantity.toString()
       
-       
       );
+      alert('Add Reservation ')
       
     }
   };
@@ -57,8 +61,7 @@ export default async function ReservationsClient({ userid,userName,restaurants }
   return (
     <main className="w-[100%] flex flex-col items-center space-y-4">
       <div className={pattaya.className} style={{ fontSize: "96px" }}>New Reservation</div>
-      <div className="text-xl font-serif">{userName}</div>
-      <div className="text-xl font-serif">{rid}</div>
+      <div className="text-xl font-serif">User : {userName}</div>
 
       <div className="w-fit space-y-2">
         <div className="font-serif text-lg text-md text-left text-gray-600">
@@ -69,7 +72,8 @@ export default async function ReservationsClient({ userid,userName,restaurants }
                   onLocationChange={(value: string) => setRestaurant(value)}
                   onQuantityChange={(value: string) => setQuantity(Number(value))}
 
-                restaurants={restaurants}   
+                restaurants={restaurants}  
+                rid={rid} 
         />
       </div>
 

@@ -10,5 +10,12 @@ export default async function ReservationsServer() {
     const restaurantsJson = await getRestaurants(); // Fetch data on server
     
   
-    return <ReservationsClient userid={profile?.data._id } userName={profile?.data.name || "Guest"} restaurants={restaurantsJson}/>;
+    return <div className="w-[100%] flex flex-col items-center space-y-4">
+        {
+            session? 
+            <ReservationsClient userid={profile?.data._id } userName={profile?.data.name || "Guest"} 
+            restaurants={restaurantsJson} session={session}/>
+            :null
+        }
+    </div>
 }

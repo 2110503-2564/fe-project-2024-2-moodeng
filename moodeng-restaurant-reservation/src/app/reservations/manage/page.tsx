@@ -14,7 +14,9 @@ export default async function ManageReservations() {
             <h1 className={`${pattaya.className} text-center text-4xl`} style={{ fontSize: "40px" }}>Manage Reservations</h1>
 
             {/* <ReservationCart/> */}
-            <ReservationCart2 reservationJson={reservation}/>
+            {session?<ReservationCart2 reservationJson={reservation} session={session}/>
+            :null}
+            
         </main>
     )
 }
