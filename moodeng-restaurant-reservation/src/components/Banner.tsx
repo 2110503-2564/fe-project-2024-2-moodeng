@@ -43,7 +43,7 @@ export default function banner(){
             absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 
             hover:bg-white  hover:text-amber-800 hover:border-transparent'
             onClick={(e)=>{rounter.push('/restaurant');e.stopPropagation()}}>
-                Select Your Restaurants
+                Select Your Restaurant
             </button>
 
         </div>
