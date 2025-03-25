@@ -22,7 +22,6 @@ export default  async function ManagePage(){
                 - Manage restaurant</div></Link>
                 :null
             } 
-            
 
         </div>
     )

@@ -18,7 +18,7 @@ export default async function Topmenu(){
 
             <Topmenuitem title='Restaurant' pageRef='/restaurant'/>
             <Topmenuitem title='Reservation' pageRef='/reservations/manage'/>
-            <Topmenuitem title='About' pageRef='/about'/>
+            {/* <Topmenuitem title='About' pageRef='/about'/> */}
 
             <div className='absolute right-5 h-full flex flex-row '>
                 <Topmenuitem title='Manage' pageRef='/manage'/>
