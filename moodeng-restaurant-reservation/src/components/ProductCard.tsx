@@ -3,50 +3,71 @@ import Image from 'next/image'
 import InteractiveCard from './InteractiveCard'
 import { Rating } from '@mui/material';
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from 'react'; // Importing useState and useEffect to handle client-side only logic
 import { ReviewJson } from '../../interfaces';
 import Link from 'next/link';
 
-export default function productcard( {carName,imgSrc,onCompare,rid }:
-    {carName:string,imgSrc:string,onCompare?:Function  ,rid:string }){
-   
-        const router = useRouter();
-    return(
-        //interactiveCard have child that display in itself
+export default function ProductCard({ carName, imgSrc, rid ,meanreview}:
+    { carName: string, imgSrc: string,  rid: string ,meanreview?:string}) {
+    
+    const router = useRouter();
+    const [isClient, setIsClient] = useState(false); // State to track if the component is mounted on the client
+
+    useEffect(() => {
+        // Set isClient to true once the component is mounted on the client-side
+        setIsClient(true);
+    }, []);
+
+    if (!isClient) {
+        return null; // Prevent rendering on the server-side (return nothing during SSR)
+    }
+
+    return (
         <InteractiveCard contentName={carName} >
             <div className='bg-yellow-50 h-full w-full'>
-
-            <div className='w-full h-[70%] relative rounded-t-lg '>
-             <Image src={imgSrc} 
-             alt='Product Picture'
-             fill={true}
-             className='object-cover rounded-t-lg'
-             />
-
-            </div>
-
-            <div className='w-full h-[15%] p-[10px]'>
-                {carName}
-            </div>
-            
-            <div className='flex flex-row absoulte left-0 bottom-0
-            w-full h-[15%] p-[10px] text-left m-2  '>
-                <div>
-                <Rating defaultValue={0} onClick={(e)=>{e.stopPropagation();}}/> 
+                <div className='w-full h-[70%] relative rounded-t-lg '>
+                    <Image src={imgSrc} 
+                        alt='Product Picture'
+                        fill={true}
+                        className='object-cover rounded-t-lg'
+                    />
                 </div>
-               <div className='text-sm underline hover:text-blue-600' onClick={(e) => {
-                    e.stopPropagation(); 
-                    router.push("/a"); // go to add review
-                }}>4.00</div>
-            
-            <Link href={`/review/manage/add?rid=${rid}` }className="w-1/5"key={rid}>
-                <button className="font-serif text-sm rounded-md bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1 text-white shadow-sm" onClick={(e)=>{e.stopPropagation(); e.preventDefault();}}>
-                +Review
-                </button>
-            </Link>
-                
+
+                <div className='w-full h-[15%] p-[10px]'>
+                    {carName}
+                </div>
+                {meanreview?
+                <div className="flex flex-row items-end ">
+                <div className='flex flex-row  m-2'>
+                    <div>
+                        <Rating readOnly defaultValue={parseInt(meanreview)} onClick={(e) => { e.stopPropagation(); }}  />
+                    </div>
+                    
+                    <Link href={`/review/${rid}` }>
+                    <div className='text-sm underline hover:text-blue-600' onClick={(e) => {
+                        e.stopPropagation();
+                    }}>
+                        {meanreview}
+                    </div>
+                    </Link>
+
+                </div>
+
+                <Link href={`/review/manage/add?rid=${rid}`}
+                    className=' m-2 z-50 ml-auto'>
+                    <button className='bg-amber-800 text-white rounded border border-white
+                        font-serif text-sm py-2 px-2 
+                        hover:bg-white hover:text-amber-800 hover:border-transparent'>
+                        +Review
+                    </button>
+                </Link>
+
             </div>
+                
+                :null}
+                
 
             </div>
         </InteractiveCard>
-    )
+    );
 }

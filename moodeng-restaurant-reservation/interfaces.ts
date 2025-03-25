@@ -14,6 +14,12 @@ export interface ReservationJson{
   pagination: Object,
   data: ReservationItem[]
 }
+export interface MeanReviewItem{
+  success:string,
+  name:string,
+  totalRating:string,
+  count:number
+}
 
 export interface RestaurantItem{
     _id: string,

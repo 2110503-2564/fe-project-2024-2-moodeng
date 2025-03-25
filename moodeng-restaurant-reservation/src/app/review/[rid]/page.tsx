@@ -1,61 +1,40 @@
-'use client';
 
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
-import addReviews from '@/libs/addReviews';
 import { Pattaya } from "next/font/google";
+import getRestaurant from '@/libs/getRestaurant';
+import { getServerSession } from "next-auth";
+import getReviewsforRestaurant from "@/libs/getReviewforRestaurant";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { ReviewItem } from "../../../../interfaces";
 
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] });
 
-export default function AddReview() {
-  const { rid } = useParams(); // ดึง restaurant ID จาก URL
-  const searchParams = useSearchParams();
-  const router = useRouter();
+export default async function Review({params}:{params:{rid:string}}) {
+  const session =await getServerSession(authOptions);
+  if(!session)return null
 
-  const restaurantName = searchParams.get('name') || 'Unknown Restaurant';
-  const [reviewStar, setReviewStar] = useState(0);
-  const [description, setDescription] = useState('');
-  const token = 'your-auth-token'; // ต้องเปลี่ยนเป็น token ที่ถูกต้อง
+  const reviews=await getReviewsforRestaurant(session.user.token,params.rid)
 
-  const handleSubmit = async () => {
-    if (!rid || reviewStar <= 0 || description.trim() === '') {
-      alert('Please complete all fields');
-      return;
-    }
-    try {
-      // await addReviews(rid, token, { reviewStar, description });
-      router.push('/review/manage'); // ไปหน้า Manage Review 
-
-    } catch (error) {
-      console.error('Failed to add review:', error);
-    }
-  };
+  const name=await getRestaurant(params.rid,session.user.token);
+  // console.log(reviews)
+ 
 
   return (
-    <div className='p-6 max-w-lg mx-auto'>
-      <h1 className={pattaya.className} style={{ fontSize: "48px" }}>Add Review</h1>
-      <p className='text-xl font-bold'>{restaurantName}</p>
-
-      <label className='block mt-4'>Rating (1-5):</label>
-      <input
-        type='number'
-        min='1'
-        max='5'
-        value={reviewStar}
-        onChange={(e) => setReviewStar(Number(e.target.value))}
-        className='border p-2 w-full'
-      />
-
-      <label className='block mt-4'>Description:</label>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className='border p-2 w-full'
-      ></textarea>
-
-      <button onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 mt-4'>
-        Submit Review
-      </button>
+    <div className='p-10 w-[80%] mx-auto text-left font-serif'>
+      <h1 className={pattaya.className} style={{ fontSize: "72px" }}>{name.data.name} Restaurant Reviews</h1>
+            
+            <div style={{ display:"flex",flexDirection:"row",
+            flexWrap:"wrap",justifyContent:"space-around",
+            alignContent:"space-around"}}>{
+              reviews.data.map((review:ReviewItem)=>(
+                <div className="text-left p-5 m-5 flex flex-col w-full rounded-xl bg-yellow-50 border border-green-600
+                text-xl">
+                  <div>User:{review.user}</div>
+                  <div>Star:{review.reviewStar}</div>
+                  <div >Description:{review.Description}</div>
+                </div>
+                ))
+            }
+            </div>
     </div>
   );
 }
