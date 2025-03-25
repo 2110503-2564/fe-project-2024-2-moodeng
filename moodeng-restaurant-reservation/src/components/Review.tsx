@@ -4,9 +4,7 @@ import LocationDateReserve from "@/components/LocationDateReserveServer";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/Reservationstore";
 import { ReviewItem, RestaurantItem, RestaurantJson } from "../../interfaces"; 
-import { addReviews } from "@/redux/features/ReviewSlice";
 import { Pattaya } from "next/font/google";
 
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] });
@@ -21,7 +19,6 @@ export default function ReviewsClient({ userid, userName, restaurants }:
   const [restaurant, setRestaurant] = useState<string>(urlParams.get("name") || "");
   const [description, setDescription] = useState<string>(""); // ✅ แก้ไขค่าตั้งต้น
 
-  const dispatch = useDispatch<AppDispatch>();
 
   const makeReview = () => {
     if (!rid || !restaurant || reviewStar <= 0 || description.trim() === "") {
@@ -42,9 +39,7 @@ export default function ReviewsClient({ userid, userName, restaurants }:
       Description: description,
     };
 
-    dispatch(addReviews(item));
 
-    // ✅ Reset ค่า input หลังจาก submit
     setReviewStar(0);
     setDescription("");
     alert("Review added successfully!");
@@ -60,11 +55,11 @@ export default function ReviewsClient({ userid, userName, restaurants }:
         <div className="font-serif text-lg text-md text-left text-gray-600">
           Review Information
         </div>
-        <LocationDateReserve
+        {/* <LocationDateReserve
           onLocationChange={(value: string) => setRestaurant(value)}
           onQuantityChange={(value: string) => setReviewStar(Number(value))}
           restaurants={restaurants}
-        />
+        /> */}
       </div>
 
       <textarea

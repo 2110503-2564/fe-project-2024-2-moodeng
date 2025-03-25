@@ -23,7 +23,7 @@ export default function AddReview() {
       return;
     }
     try {
-      await addReviews(rid, token, { reviewStar, description });
+      // await addReviews(rid, token, { reviewStar, description });
       router.push('/review/manage'); // ไปหน้า Manage Review 
 
     } catch (error) {

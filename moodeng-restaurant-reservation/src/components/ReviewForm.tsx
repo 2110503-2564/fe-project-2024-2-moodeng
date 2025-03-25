@@ -2,7 +2,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import addReviews from "@/libs/addReviews";
 import editReview from "@/libs/editReview";
-import { TextField } from "@mui/material";
+import getUserProfile from "@/libs/getUserProfile";
+import { Rating, TextField } from "@mui/material";
 import { getServerSession, Session } from "next-auth";
 import { Pattaya } from "next/font/google";
 import { useSearchParams } from "next/navigation";
@@ -11,30 +12,41 @@ import { useEffect, useState } from "react";
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
 
-export default  function Reviewform({ session }: { session: Session  }) {
+export default   function Reviewform({ session,profile}: { session: Session  ,profile:any}) {
           
   const urlParams = useSearchParams();
   const [rid, setRid] = useState<string>("");
+  const [id, setId] = useState<string>("");
+
 
   useEffect(() => {
-    const idFromUrl = urlParams.get("id");
+    const idFromUrl = urlParams.get("rid");
     if (idFromUrl) setRid(idFromUrl);
   }, [urlParams]); 
 
-  const [user, setUser] = useState<string>('');
-  const [restaurant, setRestaurant] = useState<string>('');
-  const [reviewStar, setReviewStar] = useState<number>();
+  useEffect(() => {
+    const idFromUrl = urlParams.get("id");
+    if (idFromUrl) setId(idFromUrl);
+  }, [urlParams]); 
+
+  const [user, setUser] = useState<string>(profile.data._id);
+  const [reviewStar, setReviewStar] = useState<number>(0);
   const [Description, setDescription] = useState<string>('');
 
   const makeReview= () => {
-    if (user && restaurant && reviewStar&&Description) {
+    console.log(session.user.token)
+    console.log(user)
+    console.log(rid)
+    console.log(reviewStar)
+    console.log(Description)
+    if (user && rid && reviewStar&&Description) {
 
         addReviews(
         
         session.user.token,{
             user: user,
-            restaurant: restaurant,
-            reviewStar: reviewStar.toString(),
+            restaurant: rid,
+            reviewStar: reviewStar,
             Description: Description
         }
         
@@ -42,22 +54,20 @@ export default  function Reviewform({ session }: { session: Session  }) {
       alert("Add Review Successfully!");
 
       
-    }else if(rid){
+    }else if(id){
         
         const reviewData = {
-            ...(user && { user }),
-            ...(restaurant && { restaurant }),
             ...(reviewStar && { reviewStar }),
             ...(Description && { Description })
           };
-            editReview(session.user.token, rid, reviewData);
-          alert("Review updated successfully!");
+            editReview(session.user.token, id, reviewData);
+          alert("Review updated ");
     }
   };
 
   return (
     <main className="w-[100%] flex flex-col items-center space-y-4">
-        {rid?
+        {id?
         <div className={pattaya.className} style={{ fontSize: "96px" }}>Edit Review</div>
         :
         <div className={pattaya.className} style={{ fontSize: "96px" }}>New Review</div>
@@ -70,36 +80,22 @@ export default  function Reviewform({ session }: { session: Session  }) {
         Review Information
         </div>
         <div>
-            <div className="flex flex-row px-2">
-            <div className="w-[30%]">User:</div>
-            <TextField variant="standard" name="user" label="user"
-            className="flex justify-center w-[70%]" value={user}
-            onChange={(e) => {
-                setUser(e.target.value );
-            }}
-            />
-            </div>
-            <div className="flex flex-row px-2">
-            <div className="w-[30%]">Restaurant Name :</div>
-            <TextField variant="standard" name="Name" label="Name"
-            className="flex justify-center w-[70%]" value={restaurant}
-            onChange={(e) => {
-                setRestaurant(e.target.value );
-            }}
-            />
-            </div>
-            <div className="flex flex-row ">
+            
+            
+            <div className="flex flex-col ">
                 <div className="flex flex-row px-2">
                 <div className="w-[30%]">Review Star:</div>
-                <TextField variant="standard" name="reviewStar" label="reviewStar"
-                className="flex justify-center w-[70%]" value={reviewStar}
-                onChange={(e) => {
-                    setReviewStar(Number(e.target.value ));
+                <Rating
+                name="reviewStar"
+                value={reviewStar}
+                onChange={(e, newValue) => {
+                    setReviewStar(newValue??0); // เก็บค่า Rating ที่เลือก
                 }}
                 />
                 </div>
                 <div className="flex flex-row px-2">
                 <div className="w-[30%]">Description:</div>
+                
                 <TextField variant="standard" name="Description" label="Description"
                 className="flex justify-center w-[70%]" value={Description}
                 onChange={(e) => {
