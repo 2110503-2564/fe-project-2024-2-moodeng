@@ -1,14 +1,18 @@
+import mongoose from "mongoose";
 
-export default async function addReservation(id:string,token:string) {
+export default async function addReservation(id:string,token:string,
+    resDate:string,user:string,restaurant:string,quantity:string) {
 
-    const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/reservations/${id}`, {
+    const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/restaurants/${id}/reservations`, {
         method:"POST",
         headers:{
             authorization:`Bearer ${token}`,
         },
         body:JSON.stringify({
-            email:'',
-            password:''
+            resDate: '',
+            user: '',
+            restaurant: '',
+            quantity: '',
         })
     });
 

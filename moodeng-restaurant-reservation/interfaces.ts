@@ -26,9 +26,7 @@ export interface RestaurantItem{
     region: string,
     opentime: string,    
     closetime: string,    
-    picture: string,
-    __v: number,
-    id: string
+    picture: string
 }
 export interface RestaurantJson{
     success: boolean,

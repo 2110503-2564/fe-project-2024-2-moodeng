@@ -1,4 +1,3 @@
-import ReservationCart from "@/components/ReservationCart"
 import { Pattaya } from "next/font/google";
 import getReservations from "@/libs/getReservations"
 import { getServerSession } from "next-auth";

@@ -4,30 +4,33 @@ import LocationDateReserve from "@/components/LocationDateReserveServer";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/Reservationstore";
 import { ReservationItem, RestaurantItem, RestaurantJson } from "../../interfaces"; 
-import { addReservation } from "@/redux/features/ReservationSlice";
 import { Pattaya } from "next/font/google";
+import addReservation from "@/libs/addReservations";
 import mongoose from "mongoose";
+import getUserProfile from "@/libs/getUserProfile";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
-export default function ReservationsClient({ userid,userName,restaurants }: 
+export default async function ReservationsClient({ userid,userName,restaurants }: 
     { userid:string,userName: string ,restaurants:RestaurantJson}) {
+
+      const session =await getServerSession(authOptions);
+      const profile=await getUserProfile(session?.user?.token??'');
+      
   const urlParams = useSearchParams();
   const rid = urlParams.get("id");
-  
 
   const [pickupDate, setPickupDate] = useState<Dayjs | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
   const [restaurant, setRestaurant] = useState<string>(urlParams.get("name")||'');
-  const dispatch = useDispatch<AppDispatch>();
-
+  
   const makeReservation = () => {
-    if (rid && restaurant && pickupDate) {
+    if (quantity && restaurant && pickupDate) {
         const restaurantitem = restaurants.data.find((r: RestaurantItem) => r.name === restaurant);
-        const restaurantid=restaurantitem?._id
+        const restaurantid=restaurantitem?._id??''
         console.log(restaurantid)
 
       const item: ReservationItem = {
@@ -36,6 +39,17 @@ export default function ReservationsClient({ userid,userName,restaurants }:
         restaurant: new mongoose.Types.ObjectId(restaurantid),
         quantity: quantity.toString(),
       };
+      addReservation(
+      
+        restaurantid,
+        session?.user?.token??'',
+        dayjs(pickupDate).format('YYYY/MM/DD'),
+        userid,
+        restaurantid,
+        quantity.toString()
+      
+       
+      );
       
     }
   };

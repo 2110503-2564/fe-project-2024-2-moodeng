@@ -1,16 +1,21 @@
-import RestaurantCart from "@/components/RestaurantCart"
-import getRestaurants from "@/libs/getRestaurants";
-import { Pattaya } from "next/font/google";
-
-const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
+import Restaurantform from "@/components/Restaurantform";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 
-export default function EditRestaurant() {
-    const restaurant=getRestaurants();
+
+export default async function addRestaurant() {
+    const session =await getServerSession(authOptions);
     
     return (
         <main className="p-10">
             add and edit restaurant
+            {
+            session?
+            <Restaurantform session={session}/>
+            :null
+            }
+            
         </main>
     )
 }

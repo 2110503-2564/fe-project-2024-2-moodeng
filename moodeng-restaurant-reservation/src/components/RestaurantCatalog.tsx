@@ -13,7 +13,7 @@ export default async function RestaurantCatalog({venuesJson}:{venuesJson:Promise
             flexWrap:"wrap",justifyContent:"space-around",
             alignContent:"space-around"}}>{
                 venuesJsonready.data.map((carditem:RestaurantItem)=>(
-                    <Link href={`/restaurant/${carditem.id}` }className="w-1/5"key={carditem.id}>
+                    <Link href={`/restaurant/${carditem._id}` }className="w-1/5"key={carditem._id}>
                    <Productcard carName={carditem.name} imgSrc={carditem.picture} />
                     </Link>
                 ))
