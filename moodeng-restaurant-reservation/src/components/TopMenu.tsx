@@ -13,7 +13,7 @@ export default async function Topmenu(){
 
     return(
         <div className={style.menucontainer}>
-            <Link href='/'><Image src={'/image/temp.png'}className={style.logoimg}
+            <Link href='/'><Image src={'/image/logo.png'}className={style.logoimg}
             alt='logo' width={0} height={0} sizes='100vh'/></Link>
 
             <Topmenuitem title='Restaurant' pageRef='/restaurant'/>

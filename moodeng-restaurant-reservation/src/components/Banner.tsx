@@ -9,7 +9,7 @@ import { Pattaya } from "next/font/google";
 const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
 
 export default function banner(){
-    const covers=['/image/temp.png'];
+    const covers=['/image/cover3.jpg', '/image/cover5.jpg', '/image/cover7.jpg'];
     const [index,setIndex]=useState(0);
     const rounter =useRouter();
 
@@ -27,13 +27,13 @@ export default function banner(){
             {/* <div className={`${styles.bannerText} ${pattaya.className}`}> */}
 
             <div className={styles.bannerText}>
-                <h1 className={pattaya.className} style={{ fontSize: "96px" }}>Your Dining Experience Awaits</h1>
-                <h3 className='text-3xl font-serif'>MOODENG Restaurant Reservation App</h3>
+                <h1 className={pattaya.className} style={{ fontSize: "96px", color:'white' }}>Your Dining Experience Awaits</h1>
+                <h3 className='text-3xl font-serif text-white'>MOODENG Restaurant Reservation App</h3>
             </div>
 
             {session?
                 <div className='z-30 absolute top-5 right-10 font-semibold text-cyan-800 text-xl'> 
-                    Hello {session.user?.name}
+                    Hello! {session.user?.name}
                 </div>
                 : null
             }
