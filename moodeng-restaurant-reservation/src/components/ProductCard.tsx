@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"
 import Link from 'next/link';
 import RestaurantDetailPage from '@/app/(restaurantinfo)/restaurant/[rid]/page';
 
-export default function productcard( {carName,imgSrc,onCompare}:
-    {carName:string,imgSrc:string,onCompare?:Function}){
+export default function productcard( {carName,imgSrc,onCompare, reviewJson, rid}:
+    {carName:string,imgSrc:string,onCompare?:Function, reviewItem?: { reviewJson:ReviewJson }, rid:string}){
    
         const router = useRouter();
     return(
@@ -31,15 +31,7 @@ export default function productcard( {carName,imgSrc,onCompare}:
             <div className='flex flex-row absoulte left-0 bottom-0
             w-full h-[15%] p-[10px] text-left m-2  '>
                 <div>
-                <Rating
-                defaultValue={0} 
-                precision={0.5}
-                id={`${carName} Rating`}
-                name={`${carName} Rating`}
-                data-testid={`${carName} Rating`}
-                onClick={(e)=>{e.stopPropagation();}}
-                //onChange={(e, newValue) => {onRating(carName,newValue);}}
-                />  
+                <Rating defaultValue={0} onClick={(e)=>{e.stopPropagation();}}/> 
                 </div>
                <div className='text-sm underline hover:text-blue-600' onClick={(e) => {
                     e.stopPropagation(); 
@@ -48,9 +40,12 @@ export default function productcard( {carName,imgSrc,onCompare}:
             
                     
             
-                <button className="font-serif text-sm rounded-md bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1 text-white shadow-sm" onClick={(e)=>{e.stopPropagation(); e.preventDefault();}}>
-                +Review
-                </button>
+            <Link 
+            href={`/review/${rid}`}
+            className="font-serif text-sm rounded-md bg-sky-600 hover:bg-indigo-600 mx-2 px-1 py-1 text-white shadow-sm"
+            >
+            +Review
+            </Link>
                 
             </div>
 

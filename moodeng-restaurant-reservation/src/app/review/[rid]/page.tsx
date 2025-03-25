@@ -1,39 +1,61 @@
-//import getCar from "@/libs/getCar";
-import getReview from "@/libs/getReview";
-import Link from "next/link";
+'use client';
+
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import addReviews from '@/libs/addReviews';
 import { Pattaya } from "next/font/google";
 
-const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] }); 
+const pattaya = Pattaya({ weight: "400", subsets: ["thai", "latin"] });
 
+export default function AddReview() {
+  const { rid } = useParams(); // ดึง restaurant ID จาก URL
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-export default async function ReviewDetailPage({params}:{params:{rid:string}}){
-    const ReviewDetail=await getReview(params.rid);
+  const restaurantName = searchParams.get('name') || 'Unknown Restaurant';
+  const [reviewStar, setReviewStar] = useState(0);
+  const [description, setDescription] = useState('');
+  const token = 'your-auth-token'; // ต้องเปลี่ยนเป็น token ที่ถูกต้อง
 
-    return( 
-        <main className="text-center p-5 font-serif bg-amber-50 rounded-xl border-lime-500 border-b-8">
-            <h1 className={pattaya.className} style={{ fontSize: "72px" }}>{ReviewDetail.data.name} Review</h1>
-            <div className="flex flex-row my-5 text-left"> 
-                <div className="flex flex-col my-5 mx 5 ">
-                <div className="text-2xl mx-5  ">Name: {ReviewDetail.data.user}</div>
-                <div className="text-xl mx-5   mr-12">Restaurant: {ReviewDetail.data.restaurant}</div>
-                <div className="text-xl mx-5   mr-12">ReviewStar: {ReviewDetail.data.reviewStar}</div>
-                <div className="text-xl mx-5   ">Description: {ReviewDetail.data.Description}</div>
+  const handleSubmit = async () => {
+    if (!rid || reviewStar <= 0 || description.trim() === '') {
+      alert('Please complete all fields');
+      return;
+    }
+    try {
+      await addReviews(rid, token, { reviewStar, description });
+      router.push('/review/manage'); // ไปหน้า Manage Review 
 
-                </div>
-            </div>
-            <Link href={`/reviews?id=${params.rid}&name=${ReviewDetail.data.name}`}>
-                <button className='bg-amber-800 text-white rounded border border-white
-                    font-serif text-xl py-2 px-2 m-2 z-50 
-                    hover:bg-white  hover:text-amber-800 hover:border-transparent'>
-                    Make Review
-                </button>
-            </Link>
+    } catch (error) {
+      console.error('Failed to add review:', error);
+    }
+  };
 
-        </main>
+  return (
+    <div className='p-6 max-w-lg mx-auto'>
+      <h1 className={pattaya.className} style={{ fontSize: "48px" }}>Add Review</h1>
+      <p className='text-xl font-bold'>{restaurantName}</p>
 
-    )
+      <label className='block mt-4'>Rating (1-5):</label>
+      <input
+        type='number'
+        min='1'
+        max='5'
+        value={reviewStar}
+        onChange={(e) => setReviewStar(Number(e.target.value))}
+        className='border p-2 w-full'
+      />
+
+      <label className='block mt-4'>Description:</label>
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className='border p-2 w-full'
+      ></textarea>
+
+      <button onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 mt-4'>
+        Submit Review
+      </button>
+    </div>
+  );
 }
-
-// export async function generateStaticParams() {
-//     return[{rid:"001"},{rid:"002"},{rid:"003"},{rid:"004"}]
-// }

@@ -1,7 +1,7 @@
 "use client"
 import { ReservationJson } from "../../interfaces"
 import { Rating } from '@mui/material';
-export default  function ReviewCart2({reviewJson}:{reviewJson:ReviewJson}){
+export default  function ReviewCart({reviewJson}:{reviewJson:ReviewJson}){
     console.log(reviewJson)
     return(
         <>
