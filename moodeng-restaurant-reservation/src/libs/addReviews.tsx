@@ -1,14 +1,19 @@
+export default async function addReviews(token:string,
+    {user,restaurant,reviewStar,Description}:
+    {user:string,restaurant:string,reviewStar:string,Description:string}
+) {
 
-export default async function addReviews(id:string,token:string) {
-
-    const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/restaurants/${id}/reviews`, {
+    const response=await fetch(`https://restaurant-reservation-backend-blush.vercel.app/api/v1/restaurants`, {
         method:"POST",
         headers:{
+            "Content-Type": "application/json",  
             authorization:`Bearer ${token}`,
         },
         body:JSON.stringify({
-            email:'',
-            password:''
+            user: user,
+            restaurant: restaurant,
+            reviewStar: reviewStar,
+            Description: Description
         })
     });
 
